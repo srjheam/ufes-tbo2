@@ -1,0 +1,15 @@
+# Exclude giovanni
+giovanni
+
+trab2
+
+# build n archive artifacts
+build/
+*.o
+*.a
+
+# Diretório de entradas
+entradas/
+
+# Saida do valgrind gerada por meio do Makefile
+valgrind-out.txt
