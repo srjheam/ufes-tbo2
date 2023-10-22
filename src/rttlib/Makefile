@@ -12,7 +12,7 @@ INCLUDE = include
 BUILDIR = build
 DEBUGDIR = $(BUILDIR)/debug
 RELEASEDIR = $(BUILDIR)/release
-LIBNAME = tour
+LIBNAME = rtt
 LIBTARGET = lib$(LIBNAME).a
 SRCS = $(shell find . -type f -name '*.c' | sed 's|^./||')
 

@@ -9,6 +9,11 @@ LIBCONTAINERS          = containers
 LIBCONTAINERSDIRRELEASE = $(LIBCONTAINERSDIR)/build/release
 LIBCONTAINERSDIRDEBUG   = $(LIBCONTAINERSDIR)/build/debug
 
+LIBRTTDIR       = rttlib
+LIBRTT          = rtt
+LIBRTTDIRRELEASE = $(LIBRTTDIR)/build/release
+LIBRTTDIRDEBUG   = $(LIBRTTDIR)/build/debug
+
 OUT            = main
 
 BUILDIR = build
@@ -18,7 +23,7 @@ RELEASEDIR = $(BUILDIR)/release
 # CCompiler - é o compilador usado
 # CFLAGS - são as flags dadas ao compilador durante a compilação
 CC = gcc
-override CFLAGS += -Wall -Wextra -I $(LIBCONTAINERSDIR)/include -lm
+override CFLAGS += -Wall -Wextra -I $(LIBCONTAINERSDIR)/include -I $(LIBRTTDIR)/include -lm
 
 DEBUGFLAGS = -ggdb3 -O0 -DDEBUG
 RELEASEFLAGS = -O3 -DNDEBUG
@@ -40,21 +45,24 @@ pre-build:
 pre-build-release: pre-build
 	mkdir -p $(RELEASEDIR)/
 	$(MAKE) -C $(LIBCONTAINERSDIR)/
+	$(MAKE) -C $(LIBRTTDIR)/
 
 pre-build-debug: pre-build
 	mkdir -p $(DEBUGDIR)/
 	$(MAKE) -C $(LIBCONTAINERSDIR)/ debug
+	$(MAKE) -C $(LIBRTTDIR)/ debug
 
 build-release : main.c
-	$(CC) -o $(RELEASEDIR)/$(OUT) $< -L $(LIBCONTAINERSDIRRELEASE) -l$(LIBCONTAINERS) $(CFLAGS) $(RELEASEFLAGS)
+	$(CC) -o $(RELEASEDIR)/$(OUT) $< -L $(LIBCONTAINERSDIRRELEASE) -l$(LIBCONTAINERS) -L $(LIBRTTDIRRELEASE) -l$(LIBRTT) $(CFLAGS) $(RELEASEFLAGS)
 
 build-debug : main.c
-	$(CC) -o $(DEBUGDIR)/$(OUT) $< -L $(LIBCONTAINERSDIRDEBUG) -l$(LIBCONTAINERS) $(CFLAGS) $(DEBUGFLAGS)
+	$(CC) -o $(DEBUGDIR)/$(OUT) $< -L $(LIBCONTAINERSDIRDEBUG) -l$(LIBCONTAINERS) -L $(LIBRTTDIRDEBUG) -l$(LIBRTT) $(CFLAGS) $(DEBUGFLAGS)
 
 # Rode make clean para remover tudo que é gerado pela build
 clean:
 	rm -rf $(BUILDIR)/ $(VALGRINDOUT)
 	$(MAKE) -C $(LIBCONTAINERSDIR)/ clean
+	$(MAKE) -C $(LIBRTTDIR)/ clean
 	rm -f *.mst *.tsp *.tour
 
 valgrind: debug
