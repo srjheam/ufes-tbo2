@@ -13,3 +13,4 @@ entradas/
 
 # Saida do valgrind gerada por meio do Makefile
 valgrind-out.txt
+/.vs
