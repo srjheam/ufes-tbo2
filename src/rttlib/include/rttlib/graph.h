@@ -24,4 +24,8 @@ void initializeGraph(Graph* graph, int V);
 void addEdge(Graph* graph, int src, int dest, double weight);
 void freeGraph(Graph* graph);
 
+int edge_greater(Edge* p, Edge* q);
+void edge_exchange(Edge** p, Edge** q);
+int graph_num_edges(Graph* graph);
+
 #endif

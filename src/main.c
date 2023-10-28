@@ -18,9 +18,15 @@ int main(int argc, char *argv[]) {
 
     Graph graph;
     int S, C, M;
+    double** distances;
 
     if (readGraphFromFile(input_filename, &graph, &S, &C, &M) != 0) {
         return 1;
+    }
+
+    distances = calloc(graph_num_edges(&graph), sizeof(double *));
+    for (int i = 0; i < S; i++) {
+        distances[]
     }
 
     printf("S = %d | C = %d | M = %d \n", S, C, M);

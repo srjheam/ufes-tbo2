@@ -22,3 +22,17 @@ void freeGraph(Graph* graph) {
         free(graph->adjacency_list[i]);
     }
 }
+
+int edge_greater(Edge* p, Edge* q) {
+    return p->weight > q->weight;
+}
+
+void edge_exchange(Edge** p, Edge** q) {
+    Edge* temp = *p;
+    *p = *q;
+    *q = temp;
+}
+
+int graph_num_edges(Graph* graph) {
+    return graph->num_edges;
+}
