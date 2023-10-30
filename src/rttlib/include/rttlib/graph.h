@@ -14,7 +14,7 @@ typedef struct Edge {
 } Edge;
 
 typedef struct Graph {
-    Vector **adjacency_list; // Vector<Edge>*
+    Vector **adjacency_list; // Vector<Edge>* vector sorted by id_dest
     size_t qtyVertices;
     size_t qtyEdges;
 } Graph;

@@ -26,6 +26,8 @@ void *vector_index(Vector *vector, size_t idx);
 
 void vector_insert(Vector *vector, void *elem, size_t i);
 
+void vector_sorted_insert(Vector *vector, void *elem);
+
 void vector_append(Vector *vector, void *elem);
 
 void vector_remove(Vector *vector, size_t i);

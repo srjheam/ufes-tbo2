@@ -57,6 +57,12 @@ void vector_insert(Vector *vector, void *elem, size_t i) {
     vector->len++;
 }
 
+void vector_sorted_insert(Vector *vector, void *elem) {
+    // TODO: sorted insert
+    exception_throw_failure("vector_sorted_insert - Not implemented");
+    return;
+}
+
 void vector_append(Vector *vector, void *elem) {
     vector_insert(vector, elem, vector->len);
 }
