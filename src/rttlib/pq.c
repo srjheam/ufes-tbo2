@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "include/rttlib/graph.h"
-#include "include/rttlib/pq.h"
+#include "rttlib/graph.h"
+#include "rttlib/pq.h"
 
 struct pq {
     Edge** array;

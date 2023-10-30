@@ -1,6 +1,7 @@
 #ifndef _CONTAINERSLIB_TYPES_H_
 #define _CONTAINERSLIB_TYPES_H_
 
+#include <stdlib.h>
 #include <stdbool.h>
 
 typedef void (*free_fn)(void *);

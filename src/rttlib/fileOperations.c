@@ -1,66 +1,86 @@
 #include <stdio.h>
-#include "../include/rttlib/graph.h"
 
-int readGraphFromFile(char *filename, Graph *graph, int *S, int *C, int *M) {
+#include "containerslib/exceptions.h"
+
+#include "rttlib/graph.h"
+
+int readGraphFromFile(char *filename, Graph **graph, int *qtyS, int *qtyC, int *qtyM, int **arr_S_ids, int **arr_C_ids, int **arr_M_ids) {
     FILE *input_file = fopen(filename, "r");
     if (input_file == NULL) {
         perror("Erro ao abrir o arquivo de entrada");
         return 1;
     }
 
-    int V, E;
-    fscanf(input_file, "%d %d", &V, &E);
+    int qtyV, qtyE;
+    fscanf(input_file, "%d %d", &qtyV, &qtyE);
 
-    initializeGraph(graph, V);
+    *graph = initializeGraph(qtyV);
 
-    fscanf(input_file, "%d %d %d", S, C, M);
+    fscanf(input_file, "%d %d %d", qtyS, qtyC, qtyM);
 
-    for (int i = 0; i < *S; i++) {
-        int server;
-        fscanf(input_file, "%d", &server);
-        graph->nodes[server].id = server;
-        graph->nodes[server].type = 0;
+    *arr_S_ids = malloc(sizeof(int) * *qtyS);
+    *arr_C_ids = malloc(sizeof(int) * *qtyC);
+    *arr_M_ids = malloc(sizeof(int) * *qtyM);
+
+    for (int i = 0; i < *qtyS; i++) {
+        int server_id;
+        fscanf(input_file, "%d", &server_id);
+        (*arr_S_ids)[i] = server_id;
     }
 
-    for (int i = 0; i < *C; i++) {
-        int client;
-        fscanf(input_file, "%d", &client);
-        graph->nodes[client].id = client;
-        graph->nodes[client].type = 1;
+    for (int i = 0; i < *qtyC; i++) {
+        int client_id;
+        fscanf(input_file, "%d", &client_id);
+        (*arr_C_ids)[i] = client_id;
     }
 
-    for (int i = 0; i < *M; i++) {
-        int monitor;
-        fscanf(input_file, "%d", &monitor);
-        graph->nodes[monitor].id = monitor;
-        graph->nodes[monitor].type = 2;
+    for (int i = 0; i < *qtyM; i++) {
+        int monitor_id;
+        fscanf(input_file, "%d", &monitor_id);
+        (*arr_M_ids)[i] = monitor_id;
     }
 
-    for (int i = 0; i < E; i++) {
-        int x, y;
+    for (int i = 0; i < qtyE; i++) {
+        int src_id, src_dest;
         double weight;
-        fscanf(input_file, "%d %d %lf", &x, &y, &weight);
-        addEdge(graph, x, y, weight);
+        fscanf(input_file, "%d %d %lf", &src_id, &src_dest, &weight);
+        addEdge(graph, src_id, src_dest, weight);
     }
 
     fclose(input_file);
     return 0;
 }
 
+void printRttRatioToFile(FILE *output_file, double **distances, int qtyS, int qtyC, int qtyM, int *arr_S_ids, int *arr_C_ids, int *arr_M_ids) {
+    for (size_t i = 0; i < qtyS; i++)
+        for (size_t j = 0; j < qtyC; j++) {
+            double rtt = distances[arr_S_ids[i]][arr_C_ids[j]];
+            double rtt_star = 0; // calcular rtt_star
+            double ratio = rtt_star / rtt;
+
+            fprintf(output_file, "%d %d %lf\n", arr_S_ids[i], arr_C_ids[j], ratio); 
+        }
+}
+
 void printGraphToFile(char *filename, Graph *graph) {
-    FILE *output_file = fopen(filename, "w");
+    exception_throw_failure("Not implemented - printGraphToFile");
+    return;
+
+    // TODO: Implementar isso depois das mudancas q fiz no grafo
+
+    /* FILE *output_file = fopen(filename, "w");
     if (output_file == NULL) {
         perror("Erro ao abrir o arquivo de saída");
         return;
     }
 
-    for (int i = 0; i < graph->V; i++) {
+    for (int i = 0; i < graph->qtyVertices; i++) {
         fprintf(output_file, "Nó %d (Tipo: %d): ", graph->nodes[i].id, graph->nodes[i].type);
-        for (int j = 0; j < graph->num_edges[i]; j++) {
+        for (int j = 0; j < graph->qtyEdges[i]; j++) {
             fprintf(output_file, "(Destino: %d, Peso: %.2lf) ", graph->adjacency_list[i][j].dest, graph->adjacency_list[i][j].weight);
         }
         fprintf(output_file, "\n");
     }
 
-    fclose(output_file);
+    fclose(output_file); */
 }

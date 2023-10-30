@@ -2,11 +2,16 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "include/rttlib/graph.h"
-#include "include/rttlib/pq.h"
+#include "rttlib/graph.h"
+#include "rttlib/pq.h"
 
+double *dijkstra_dists(Graph* graph, int src_id) {
+	//
+	// eu não trabalhei com a implementacao do dijkstra, mas farei isso hoje
+	// a noite porque é bem facil e também porque minhas mudancas no grafo e
+	// e em outros trechos do programa quebraram totalmente essa implementacao
+	//
 
-double* dijkstra(Graph* graph, int src) {
 	int amount_vertices = graph_vertices(graph);
 	double* distance = malloc(sizeof(double) * amount_vertices);
 	int* visited = malloc(sizeof(int) * amount_vertices);
@@ -16,9 +21,9 @@ double* dijkstra(Graph* graph, int src) {
 		visited[i] = 0;
 	}
 
-	distance[src] = 0.0;
+	distance[src_id] = 0.0;
 	PQ* pq = priority_queue_init(amount_vertices);
-	Edge* new_node = vertex_new(src);
+	Edge* new_node = vertex_new(src_id);
 	new_node->weight = 0.0;
 
 	priority_queue_insert(pq, new_node);

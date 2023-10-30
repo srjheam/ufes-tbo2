@@ -1,31 +1,31 @@
 #ifndef _RTTLIB_GRAPH_H_
 #define _RTTLIB_GRAPH_H_
 
-#define MAX_NODES 100
+#include "containerslib/vector.h"
 
-typedef struct Node {
+typedef struct Vertex {
     int id;
-    int type;
-} Node;
+} Vertex;
 
 typedef struct Edge {
-    int dest;
+    int id_src;
+    int id_dest;
     double weight;
 } Edge;
 
 typedef struct Graph {
-    int V;
-    Node nodes[MAX_NODES];
-    Edge* adjacency_list[MAX_NODES];
-    int num_edges[MAX_NODES];
+    Vector **adjacency_list; // Vector<Edge>*
+    size_t qtyVertices;
+    size_t qtyEdges;
 } Graph;
 
-void initializeGraph(Graph* graph, int V);
+Graph *initializeGraph(int qtyVertices);
 void addEdge(Graph* graph, int src, int dest, double weight);
 void freeGraph(Graph* graph);
 
-int edge_greater(Edge* p, Edge* q);
-void edge_exchange(Edge** p, Edge** q);
-int graph_num_edges(Graph* graph);
+int graph_edge_cmp(Edge* p, Edge* q);
+
+size_t graph_num_edges(Graph* graph);
+size_t graph_num_vertices(Graph* graph);
 
 #endif
