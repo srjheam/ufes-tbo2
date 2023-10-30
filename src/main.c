@@ -3,9 +3,11 @@
 #include <string.h>
 #include <float.h>
 
-#include "containerslib/triheap.h"
+#include "containerslib/heap.h"
+
 #include "rttlib/fileOperations.h"
 #include "rttlib/graph.h"
+#include "rttlib/rttInfo.h"
 
 int main(int argc, char *argv[]) {
     if (argc != 3) {
@@ -34,17 +36,20 @@ int main(int argc, char *argv[]) {
     // para cada vertice S, C, M, calcula as distancias a partir dele
     for (int i = 0; i < qtyS; i++) {
         int src_id = arr_S_ids[i];
-        distances[src_id] = dijkstra_dists(graph, src_id);
+        distances[src_id] = malloc(qtyV * sizeof(double));
+        dijkstra_dists(graph, src_id, &distances[src_id]);
     }
 
     for (int i = 0; i < qtyC; i++) {
         int src_id = arr_C_ids[i];
-        distances[src_id] = dijkstra_dists(graph, src_id);
+        distances[src_id] = malloc(qtyV * sizeof(double));
+        dijkstra_dists(graph, src_id, &distances[src_id]);
     }
 
     for (int i = 0; i < qtyM; i++) {
         int src_id = arr_M_ids[i];
-        distances[src_id] = dijkstra_dists(graph, src_id);
+        distances[src_id] = malloc(qtyV * sizeof(double));
+        dijkstra_dists(graph, src_id, &distances[src_id]);
     }
 
     // TODO:
@@ -63,9 +68,11 @@ int main(int argc, char *argv[]) {
     //       e imprimir essa estrutura sem jamais conter qualquer lógica de cálculo de rtt star
     //       2 - definir a camada que transpoem nossos dados crus em dijkstra distances e edges para
     //       essa nova estrutura RttInfo
-    //       
+    //
 
-    printRttRatioToFile(stdout, distances, qtyS, qtyC, qtyM, arr_S_ids, arr_C_ids, arr_M_ids);
+    Heap *rttInfos = rttinfo_calc(distances, qtyS, qtyC, qtyM, arr_S_ids, arr_C_ids, arr_M_ids);
+
+    printRttRatioToFile(stdout, rttInfos);
 
     freeGraph(graph);
     free(arr_S_ids);

@@ -1,8 +1,10 @@
 #include <stdio.h>
 
 #include "containerslib/exceptions.h"
+#include "containerslib/heap.h"
 
 #include "rttlib/graph.h"
+#include "rttlib/rttInfo.h"
 
 int readGraphFromFile(char *filename, Graph **graph, int *qtyS, int *qtyC, int *qtyM, int **arr_S_ids, int **arr_C_ids, int **arr_M_ids) {
     FILE *input_file = fopen(filename, "r");
@@ -51,15 +53,13 @@ int readGraphFromFile(char *filename, Graph **graph, int *qtyS, int *qtyC, int *
     return 0;
 }
 
-void printRttRatioToFile(FILE *output_file, double **distances, int qtyS, int qtyC, int qtyM, int *arr_S_ids, int *arr_C_ids, int *arr_M_ids) {
-    for (size_t i = 0; i < qtyS; i++)
-        for (size_t j = 0; j < qtyC; j++) {
-            double rtt = distances[arr_S_ids[i]][arr_C_ids[j]];
-            double rtt_star = 0; // calcular rtt_star
-            double ratio = rtt_star / rtt;
-
-            fprintf(output_file, "%d %d %lf\n", arr_S_ids[i], arr_C_ids[j], ratio); 
-        }
+void printRttRatioToFile(FILE *output_file, Heap *rttInfos) {
+    RttInfo rttInfo;
+    while (heap_len(rttInfos) > 0)
+    {
+        double ratio = heap_pop(rttInfos, &rttInfo);
+        printf("%d %d %.16lf\n", rttInfo.c_id, rttInfo.s_id, ratio);
+    }
 }
 
 void printGraphToFile(char *filename, Graph *graph) {

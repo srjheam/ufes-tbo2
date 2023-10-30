@@ -1,64 +1,47 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <math.h>
 
 #include "rttlib/graph.h"
-#include "rttlib/pq.h"
 
-double *dijkstra_dists(Graph* graph, int src_id) {
-	//
-	// eu não trabalhei com a implementacao do dijkstra, mas farei isso hoje
-	// a noite porque é bem facil e também porque minhas mudancas no grafo e
-	// e em outros trechos do programa quebraram totalmente essa implementacao
-	//
+#include "containerslib/triheap.h"
 
-	int amount_vertices = graph_vertices(graph);
-	double* distance = malloc(sizeof(double) * amount_vertices);
-	int* visited = malloc(sizeof(int) * amount_vertices);
+int __idselecter(int *id) {
+	return *id;
+}
 
-	for (int i = 0; i < amount_vertices; i++) {
-		distance[i] = 1000; //INFINITY;
-		visited[i] = 0;
-	}
+void dijkstra_dists(Graph* graph, int src_id, double *out_dists) {
+	size_t qtyV = graph_num_vertices(graph);
 
-	distance[src_id] = 0.0;
-	PQ* pq = priority_queue_init(amount_vertices);
-	Edge* new_node = vertex_new(src_id);
-	new_node->weight = 0.0;
+	for (size_t i = 0; i < qtyV; i++)
+		out_dists[i] = __DBL_MAX__; // TODO: trocar por INFINITY
 
-	priority_queue_insert(pq, new_node);
+	out_dists[src_id] = 0;
 
-	while (!priority_queue_empty(pq)) {
-		Edge* current = priority_queue_delmin(pq);
-		int index = current->id;
-		visited[index] = 1;
+	TriHeap *pq = triheap_init(MIN_HEAP, qtyV, sizeof(int), NULL, (idselect_fn)__idselecter);
+	for (size_t i = 0; i < qtyV; i++)
+			triheap_push(pq, &i, out_dists[i]);
 
-		double new_weight;
-		Edge* temp = graph_get_vertex(graph, index);
+	while (triheap_len(pq) > 0) {
+		int curr_id;
+		double dist = triheap_pop(pq, &curr_id);
 
-		while (temp) {
-			if (visited[temp->id] == 0) {
-				new_weight = distance[index] + temp->weight;
-				if (new_weight < distance[temp->id]) {
-					distance[temp->id] = new_weight;
-					if (priority_queue_contains(pq, temp->id)) {
-						priority_queue_decrease_key(pq, temp->id, new_weight);
-					}
-					else {
-						Edge* new_node = vertex_new(temp->id);
-						new_node->weight = new_weight;
-						priority_queue_insert(pq, new_node);
-					}
-				}
+		Vector *adj_vect = graph->adjacency_list[curr_id];
+
+		void *save_ptr = vector_iterator_begin(adj_vect);
+		Edge *curr_edge;
+		while ((curr_edge = vector_iterator_forward(adj_vect, &save_ptr)) != NULL)
+		{
+			int v_id = curr_edge->id_dest;
+
+			double t_dist = out_dists[curr_id] + curr_edge->weight;
+			if (out_dists[v_id] > t_dist) {
+				out_dists[v_id] = t_dist;
+				triheap_update_by_id(pq, v_id, t_dist);
 			}
-			temp = temp->next;
-		}
-		if (current) {
-			free(current);
 		}
 	}
 
-	free(visited);
-	priority_queue_finish(pq);
-	return distance;
+	triheap_destructor(pq);
 }
