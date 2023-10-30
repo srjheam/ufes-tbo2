@@ -23,7 +23,7 @@ void dijkstra_dists(Graph* graph, int src_id, double *out_dists) {
 	for (size_t i = 0; i < qtyV; i++)
 			triheap_push(pq, &i, out_dists[i]);
 
-	while (!triheap_is_empty(pq)) {
+	while (triheap_len(pq) > 0) {
 		int curr_id;
 		double dist = triheap_pop(pq, &curr_id);
 
