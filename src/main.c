@@ -3,9 +3,11 @@
 #include <string.h>
 #include <float.h>
 
-#include "containerslib/triheap.h"
+#include "containerslib/heap.h"
+
 #include "rttlib/fileOperations.h"
 #include "rttlib/graph.h"
+#include "rttlib/rttInfo.h"
 
 int main(int argc, char *argv[]) {
     if (argc != 3) {
@@ -66,9 +68,11 @@ int main(int argc, char *argv[]) {
     //       e imprimir essa estrutura sem jamais conter qualquer lógica de cálculo de rtt star
     //       2 - definir a camada que transpoem nossos dados crus em dijkstra distances e edges para
     //       essa nova estrutura RttInfo
-    //       
+    //
 
-    printRttRatioToFile(stdout, distances, qtyS, qtyC, qtyM, arr_S_ids, arr_C_ids, arr_M_ids);
+    Heap *rttInfos = rttinfo_calc(distances, qtyS, qtyC, qtyM, arr_S_ids, arr_C_ids, arr_M_ids);
+
+    printRttRatioToFile(stdout, rttInfos);
 
     freeGraph(graph);
     free(arr_S_ids);
