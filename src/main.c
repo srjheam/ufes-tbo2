@@ -34,17 +34,20 @@ int main(int argc, char *argv[]) {
     // para cada vertice S, C, M, calcula as distancias a partir dele
     for (int i = 0; i < qtyS; i++) {
         int src_id = arr_S_ids[i];
-        distances[src_id] = dijkstra_dists(graph, src_id);
+        distances[src_id] = malloc(qtyV * sizeof(double));
+        dijkstra_dists(graph, src_id, &distances[src_id]);
     }
 
     for (int i = 0; i < qtyC; i++) {
         int src_id = arr_C_ids[i];
-        distances[src_id] = dijkstra_dists(graph, src_id);
+        distances[src_id] = malloc(qtyV * sizeof(double));
+        dijkstra_dists(graph, src_id, &distances[src_id]);
     }
 
     for (int i = 0; i < qtyM; i++) {
         int src_id = arr_M_ids[i];
-        distances[src_id] = dijkstra_dists(graph, src_id);
+        distances[src_id] = malloc(qtyV * sizeof(double));
+        dijkstra_dists(graph, src_id, &distances[src_id]);
     }
 
     // TODO:

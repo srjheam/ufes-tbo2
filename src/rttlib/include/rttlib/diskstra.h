@@ -7,6 +7,6 @@
 /// @param graph
 /// @param src
 /// @return Um vetor com dimensao |V| com as distâncias de src_id para cada vértice
-double *dijkstra_dists(Graph *graph, int src_id);
+void dijkstra_dists(Graph* graph, int src_id, double *out_dists);
 
 #endif
