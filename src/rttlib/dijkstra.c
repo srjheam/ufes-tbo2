@@ -15,7 +15,7 @@ void dijkstra_dists(Graph* graph, int src_id, double *out_dists) {
 	size_t qtyV = graph_num_vertices(graph);
 
 	for (size_t i = 0; i < qtyV; i++)
-		out_dists[i] = __DBL_MAX__; // TODO: trocar por INFINITY
+		out_dists[i] = INFINITY;
 
 	out_dists[src_id] = 0;
 

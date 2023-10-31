@@ -3,6 +3,7 @@ giovanni
 
 trab2
 src/*.txt
+*.txt
 
 # build n archive artifacts
 build/
@@ -15,3 +16,5 @@ entradas/
 # Saida do valgrind gerada por meio do Makefile
 valgrind-out.txt
 /.vs
+
+app.py
