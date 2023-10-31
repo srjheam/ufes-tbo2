@@ -21,7 +21,7 @@ double estimated_rtt_brute_force(double** distances, int qtdMonitors, int* idsM,
 	return min;
 }
 
-double** rtt_inflation_brute_force(double** distances, int qtdMonitors, int qtdClients, int qtdServers,
+/* double** rtt_inflation_brute_force(double** distances, int qtdMonitors, int qtdClients, int qtdServers,
 	int* idsM, int* idsC, int* idsS) {
 	int k = 0;
 
@@ -34,4 +34,4 @@ double** rtt_inflation_brute_force(double** distances, int qtdMonitors, int qtdC
 			const double inflation = estimated_rtt / original_rtt;
 		}
 	}
-}
+} */
