@@ -14,7 +14,7 @@ Graph *initializeGraph(int qtyVertices) {
     graph->qtyEdges = 0;
     graph->qtyVertices = qtyVertices;
     
-    graph->adjacency_list = malloc(sizeof(__SIZEOF_POINTER__) * qtyVertices);
+    graph->adjacency_list = malloc(__SIZEOF_POINTER__ * qtyVertices);
     for (int i = 0; i < qtyVertices; i++)
         graph->adjacency_list[i] = vector_constructor(sizeof(Edge), (cmp_fn)__graph_adj_vect_edge_cmp, NULL);
 
