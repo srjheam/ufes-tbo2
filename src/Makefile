@@ -23,7 +23,7 @@ RELEASEDIR = $(BUILDIR)/release
 # CCompiler - é o compilador usado
 # CFLAGS - são as flags dadas ao compilador durante a compilação
 CC = gcc
-override CFLAGS += -Wall -Wextra -I $(LIBCONTAINERSDIR)/include -I $(LIBRTTDIR)/include -lm
+override CFLAGS += -Wall -Wextra -I $(LIBRTTDIR)/include -I $(LIBCONTAINERSDIR)/include -lm
 
 DEBUGFLAGS = -ggdb3 -O0 -DDEBUG
 RELEASEFLAGS = -O3 -DNDEBUG
@@ -53,10 +53,10 @@ pre-build-debug: pre-build
 	$(MAKE) -C $(LIBRTTDIR)/ debug
 
 build-release : main.c
-	$(CC) -o $(RELEASEDIR)/$(OUT) $< -L $(LIBCONTAINERSDIRRELEASE) -l$(LIBCONTAINERS) -L $(LIBRTTDIRRELEASE) -l$(LIBRTT) $(CFLAGS) $(RELEASEFLAGS)
+	$(CC) -o $(RELEASEDIR)/$(OUT) $< -L $(LIBRTTDIRRELEASE) -l$(LIBRTT) -L $(LIBCONTAINERSDIRRELEASE) -l$(LIBCONTAINERS) $(CFLAGS) $(RELEASEFLAGS)
 
 build-debug : main.c
-	$(CC) -o $(DEBUGDIR)/$(OUT) $< -L $(LIBCONTAINERSDIRDEBUG) -l$(LIBCONTAINERS) -L $(LIBRTTDIRDEBUG) -l$(LIBRTT) $(CFLAGS) $(DEBUGFLAGS)
+	$(CC) -o $(DEBUGDIR)/$(OUT) $< -L $(LIBRTTDIRDEBUG) -l$(LIBRTT) -L $(LIBCONTAINERSDIRDEBUG) -l$(LIBCONTAINERS) $(CFLAGS) $(DEBUGFLAGS)
 
 # Rode make clean para remover tudo que é gerado pela build
 clean:

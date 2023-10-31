@@ -5,9 +5,7 @@
 #include "containerslib/linked_list.h"
 
 int __graph_adj_vect_edge_cmp(Edge* p, Edge* q) {
-    if (p->id_src == q->id_src && p->id_dest == q->id_dest)
-        return 0;
-    else return p->id_dest - q->id_dest;
+    return p->id_dest - q->id_dest;
 }
 
 Graph *initializeGraph(int qtyVertices) {
@@ -17,29 +15,23 @@ Graph *initializeGraph(int qtyVertices) {
     graph->qtyVertices = qtyVertices;
     
     graph->adjacency_list = malloc(sizeof(__SIZEOF_POINTER__) * qtyVertices);
-    for (size_t i = 0; i < qtyVertices; i++)
-        graph->adjacency_list[i] = vector_constructor(sizeof(Edge), __graph_adj_vect_edge_cmp, NULL);
+    for (int i = 0; i < qtyVertices; i++)
+        graph->adjacency_list[i] = vector_constructor(sizeof(Edge), (cmp_fn)__graph_adj_vect_edge_cmp, NULL);
 
     return graph;
 }
 
 void addEdge(Graph* graph, int src, int dest, double weight) {
-    Edge new_edge = { .id_src = src, .id_dest = dest, .weight = weight };
+    Edge new_edge = { .id_dest = dest, .weight = weight };
     vector_sorted_insert(graph->adjacency_list[src], &new_edge);
 }
 
 void freeGraph(Graph* graph) {
-    for (int i = 0; i < graph->qtyVertices; i++) {
+    for (size_t i = 0; i < graph->qtyVertices; i++)
         vector_destructor(graph->adjacency_list[i]);
-    }
+    free(graph->adjacency_list);
 
     free(graph);
-}
-
-int graph_edge_cmp(Edge* p, Edge* q) {
-    if (p->id_src == q->id_src && p->id_dest == q->id_dest)
-        return 0;
-    else return -1;
 }
 
 size_t graph_num_edges(Graph* graph) {

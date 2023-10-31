@@ -8,7 +8,6 @@ typedef struct Vertex {
 } Vertex;
 
 typedef struct Edge {
-    int id_src;
     int id_dest;
     double weight;
 } Edge;
@@ -22,8 +21,6 @@ typedef struct Graph {
 Graph *initializeGraph(int qtyVertices);
 void addEdge(Graph* graph, int src, int dest, double weight);
 void freeGraph(Graph* graph);
-
-int graph_edge_cmp(Edge* p, Edge* q);
 
 size_t graph_num_edges(Graph* graph);
 size_t graph_num_vertices(Graph* graph);

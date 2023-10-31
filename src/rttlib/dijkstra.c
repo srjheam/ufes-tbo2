@@ -3,9 +3,9 @@
 #include <stdbool.h>
 #include <math.h>
 
-#include "rttlib/graph.h"
-
 #include "containerslib/triheap.h"
+
+#include "rttlib/graph.h"
 
 int __idselecter(int *id) {
 	return *id;
@@ -35,7 +35,7 @@ void dijkstra_dists(Graph* graph, int src_id, double *out_dists) {
 		{
 			int v_id = curr_edge->id_dest;
 
-			double t_dist = out_dists[curr_id] + curr_edge->weight;
+			double t_dist = dist + curr_edge->weight;
 			if (out_dists[v_id] > t_dist) {
 				out_dists[v_id] = t_dist;
 				triheap_update_by_id(pq, v_id, t_dist);
@@ -43,5 +43,5 @@ void dijkstra_dists(Graph* graph, int src_id, double *out_dists) {
 		}
 	}
 
-	triheap_destructor(pq);
+	triheap_free(pq);
 }

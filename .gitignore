@@ -2,6 +2,7 @@
 giovanni
 
 trab2
+src/*.txt
 
 # build n archive artifacts
 build/

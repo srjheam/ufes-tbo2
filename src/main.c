@@ -7,6 +7,7 @@
 
 #include "rttlib/fileOperations.h"
 #include "rttlib/graph.h"
+#include "rttlib/dijkstra.h"
 #include "rttlib/rttInfo.h"
 
 int main(int argc, char *argv[]) {
@@ -37,19 +38,19 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < qtyS; i++) {
         int src_id = arr_S_ids[i];
         distances[src_id] = malloc(qtyV * sizeof(double));
-        dijkstra_dists(graph, src_id, &distances[src_id]);
+        dijkstra_dists(graph, src_id, distances[src_id]);
     }
 
     for (int i = 0; i < qtyC; i++) {
         int src_id = arr_C_ids[i];
         distances[src_id] = malloc(qtyV * sizeof(double));
-        dijkstra_dists(graph, src_id, &distances[src_id]);
+        dijkstra_dists(graph, src_id, distances[src_id]);
     }
 
     for (int i = 0; i < qtyM; i++) {
         int src_id = arr_M_ids[i];
         distances[src_id] = malloc(qtyV * sizeof(double));
-        dijkstra_dists(graph, src_id, &distances[src_id]);
+        dijkstra_dists(graph, src_id, distances[src_id]);
     }
 
     // TODO:
@@ -72,13 +73,15 @@ int main(int argc, char *argv[]) {
 
     Heap *rttInfos = rttinfo_calc(distances, qtyS, qtyC, qtyM, arr_S_ids, arr_C_ids, arr_M_ids);
 
+    FILE *output = fopen(output_filename, "w");
     printRttRatioToFile(stdout, rttInfos);
+    fclose(output);
 
     freeGraph(graph);
     free(arr_S_ids);
     free(arr_C_ids);
     free(arr_M_ids);
-    for (size_t i = 0; i < qtyV; i++)
+    for (int i = 0; i < qtyV; i++)
         if (distances[i])
             free(distances[i]);
 

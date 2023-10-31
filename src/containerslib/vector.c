@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include "containerslib/exceptions.h"
 
 #include "containerslib/vector.h"
@@ -58,9 +60,8 @@ void vector_insert(Vector *vector, void *elem, size_t i) {
 }
 
 void vector_sorted_insert(Vector *vector, void *elem) {
-    // TODO: sorted insert
-    exception_throw_failure("vector_sorted_insert - Not implemented");
-    return;
+    size_t i = vector_bsearch_nearest_i(vector, elem);
+    vector_insert(vector, elem, i);
 }
 
 void vector_append(Vector *vector, void *elem) {

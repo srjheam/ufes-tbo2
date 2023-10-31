@@ -14,11 +14,11 @@ int readGraphFromFile(char *filename, Graph **graph, int *qtyS, int *qtyC, int *
     }
 
     int qtyV, qtyE;
-    fscanf(input_file, "%d %d", &qtyV, &qtyE);
+    if(fscanf(input_file, "%d %d", &qtyV, &qtyE)){};
 
     *graph = initializeGraph(qtyV);
 
-    fscanf(input_file, "%d %d %d", qtyS, qtyC, qtyM);
+    if(fscanf(input_file, "%d %d %d", qtyS, qtyC, qtyM)){};
 
     *arr_S_ids = malloc(sizeof(int) * *qtyS);
     *arr_C_ids = malloc(sizeof(int) * *qtyC);
@@ -26,27 +26,27 @@ int readGraphFromFile(char *filename, Graph **graph, int *qtyS, int *qtyC, int *
 
     for (int i = 0; i < *qtyS; i++) {
         int server_id;
-        fscanf(input_file, "%d", &server_id);
+        if(fscanf(input_file, "%d", &server_id)){};
         (*arr_S_ids)[i] = server_id;
     }
 
     for (int i = 0; i < *qtyC; i++) {
         int client_id;
-        fscanf(input_file, "%d", &client_id);
+        if(fscanf(input_file, "%d", &client_id)){};
         (*arr_C_ids)[i] = client_id;
     }
 
     for (int i = 0; i < *qtyM; i++) {
         int monitor_id;
-        fscanf(input_file, "%d", &monitor_id);
+        if(fscanf(input_file, "%d", &monitor_id)){};
         (*arr_M_ids)[i] = monitor_id;
     }
 
     for (int i = 0; i < qtyE; i++) {
         int src_id, src_dest;
         double weight;
-        fscanf(input_file, "%d %d %lf", &src_id, &src_dest, &weight);
-        addEdge(graph, src_id, src_dest, weight);
+        if(fscanf(input_file, "%d %d %lf", &src_id, &src_dest, &weight)){};
+        addEdge(*graph, src_id, src_dest, weight);
     }
 
     fclose(input_file);
