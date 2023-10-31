@@ -70,16 +70,10 @@ int main(int argc, char *argv[]) {
     //       2 - definir a camada que transpoem nossos dados crus em dijkstra distances e edges para
     //       essa nova estrutura RttInfo
     //
+    freeGraph(graph);
 
     Heap *rttInfos = rttinfo_calc(distances, qtyS, qtyC, qtyM, arr_S_ids, arr_C_ids, arr_M_ids);
 
-    FILE *output = fopen(output_filename, "w");
-    printRttRatioToFile(output, rttInfos);
-    fclose(output);
-
-    heap_free(rttInfos);
-
-    freeGraph(graph);
     free(arr_S_ids);
     free(arr_C_ids);
     free(arr_M_ids);
@@ -87,6 +81,12 @@ int main(int argc, char *argv[]) {
         if (distances[i])
             free(distances[i]);
     free(distances);
+
+    FILE *output = fopen(output_filename, "w");
+    printRttRatioToFile(output, rttInfos);
+    fclose(output);
+
+    heap_free(rttInfos);
 
     return 0;
 }
