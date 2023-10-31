@@ -7,7 +7,9 @@
       "request": "launch",
       "program": "${workspaceFolder}/src/build/debug/main",
       "args": [
-        "exemplos/in/a280.tsp"
+        "entradas/N5_S1_C1_M2.txt",
+        "meuarquivofake.txt"
+
       ],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}/",

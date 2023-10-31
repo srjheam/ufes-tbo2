@@ -74,7 +74,7 @@ int main(int argc, char *argv[]) {
     Heap *rttInfos = rttinfo_calc(distances, qtyS, qtyC, qtyM, arr_S_ids, arr_C_ids, arr_M_ids);
 
     FILE *output = fopen(output_filename, "w");
-    printRttRatioToFile(stdout, rttInfos);
+    printRttRatioToFile(output, rttInfos);
     fclose(output);
 
     heap_free(rttInfos);

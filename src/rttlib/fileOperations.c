@@ -58,29 +58,6 @@ void printRttRatioToFile(FILE *output_file, Heap *rttInfos) {
     while (heap_len(rttInfos) > 0)
     {
         double ratio = heap_pop(rttInfos, &rttInfo);
-        printf("%d %d %.16lf\n", rttInfo.c_id, rttInfo.s_id, ratio);
+        fprintf(output_file, "%d %d %.16lf\n", rttInfo.c_id, rttInfo.s_id, ratio);
     }
-}
-
-void printGraphToFile(char *filename, Graph *graph) {
-    exception_throw_failure("Not implemented - printGraphToFile");
-    return;
-
-    // TODO: Implementar isso depois das mudancas q fiz no grafo
-
-    /* FILE *output_file = fopen(filename, "w");
-    if (output_file == NULL) {
-        perror("Erro ao abrir o arquivo de saída");
-        return;
-    }
-
-    for (int i = 0; i < graph->qtyVertices; i++) {
-        fprintf(output_file, "Nó %d (Tipo: %d): ", graph->nodes[i].id, graph->nodes[i].type);
-        for (int j = 0; j < graph->qtyEdges[i]; j++) {
-            fprintf(output_file, "(Destino: %d, Peso: %.2lf) ", graph->adjacency_list[i][j].dest, graph->adjacency_list[i][j].weight);
-        }
-        fprintf(output_file, "\n");
-    }
-
-    fclose(output_file); */
 }
