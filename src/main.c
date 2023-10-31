@@ -77,6 +77,8 @@ int main(int argc, char *argv[]) {
     printRttRatioToFile(stdout, rttInfos);
     fclose(output);
 
+    heap_free(rttInfos);
+
     freeGraph(graph);
     free(arr_S_ids);
     free(arr_C_ids);
@@ -84,6 +86,7 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < qtyV; i++)
         if (distances[i])
             free(distances[i]);
+    free(distances);
 
     return 0;
 }
