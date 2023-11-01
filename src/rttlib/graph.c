@@ -23,7 +23,7 @@ Graph *initializeGraph(int qtyVertices) {
 
 void addEdge(Graph* graph, int src, int dest, double weight) {
     Edge new_edge = { .id_dest = dest, .weight = weight };
-    vector_sorted_insert(graph->adjacency_list[src], &new_edge);
+    vector_append(graph->adjacency_list[src], &new_edge);
 }
 
 void freeGraph(Graph* graph) {
