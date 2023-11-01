@@ -103,7 +103,7 @@ double __triheap_heapify_high(TriHeap *heap, size_t i) {
 }
 
 void __triheap_heapify_up(TriHeap *heap, size_t i) {
-    if (heap->len == 1 || i == 0)
+    if (heap->len == 1 || i == 1)
         return;
 
     size_t icurr = i >> 1;
@@ -119,8 +119,8 @@ void __triheap_heapify_up(TriHeap *heap, size_t i) {
     }
 }
 
-void __triheap_heapify_down(TriHeap *heap) {
-    size_t icurr = 1;
+void __triheap_heapify_down(TriHeap *heap, size_t i) {
+    size_t icurr = i;
     while (__triheap_heapify_high(heap, icurr)) {
         size_t ichild =
             2 * icurr + (__triheap_heapify_high(heap, icurr) < 0 ? 0 : 1);
@@ -168,7 +168,7 @@ double __triheap_pop(TriHeap *heap, byte *out) {
     __triheap_swap(heap, 1, heap->len);
     heap->len--;
 
-    __triheap_heapify_down(heap);
+    __triheap_heapify_down(heap, 1);
 
     return spriority;
 }
@@ -190,7 +190,7 @@ void __triheap_update_by_id(TriHeap *heap, int id, double priority) {
     if (__triheap_cmp(heap, priority, oldpriority) > 0)
         __triheap_heapify_up(heap, i);
     else
-        __triheap_heapify_down(heap);
+        __triheap_heapify_down(heap, i);
 }
 
 TriHeap *triheap_init(enum HeapType type, size_t fixedCapacity, size_t smemb, free_fn freer, idselect_fn idselecter) {

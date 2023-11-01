@@ -91,7 +91,7 @@ double __heap_heapify_high(Heap *heap, size_t i) {
 }
 
 void __heap_heapify_up(Heap *heap, size_t i) {
-    if (heap->len == 1 || i == 0)
+    if (heap->len == 1 || i == 1)
         return;
 
     size_t icurr = i >> 1;
