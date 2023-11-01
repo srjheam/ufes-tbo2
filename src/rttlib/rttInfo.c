@@ -26,7 +26,7 @@ Heap *rttinfo_calc(double **distances, int qtyS, int qtyC, int qtyM, int *arr_S_
                     rtt_star = rtt_m;
             }
 
-            RttInfo rttInfo = {.c_id = server_id, .s_id = client_id};
+            RttInfo rttInfo = {.s_id = server_id, .c_id = client_id};
 
             heap_push(rttInfos, &rttInfo, (rtt_star / rtt));
         }

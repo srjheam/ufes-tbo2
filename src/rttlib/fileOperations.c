@@ -58,6 +58,6 @@ void printRttRatioToFile(FILE *output_file, Heap *rttInfos) {
     while (heap_len(rttInfos) > 0)
     {
         double ratio = heap_pop(rttInfos, &rttInfo);
-        fprintf(output_file, "%d %d %.16lf\n", rttInfo.c_id, rttInfo.s_id, ratio);
+        fprintf(output_file, "%d %d %.16lf\n", rttInfo.s_id, rttInfo.c_id, ratio);
     }
 }
