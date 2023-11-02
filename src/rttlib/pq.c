@@ -11,18 +11,6 @@ struct pq {
     int n, size;
 };
 
-static int vertex_more(Vertex a, Vertex b) {
-    return a.dist > b.dist;
-}
-
-static void vertex_exch(Vertex* a, Vertex* b) {
-    Vertex t = *a;
-    *a = *b;
-    *b = t;
-}
-
-static int vertex_id(Vertex v) { return v.id; }
-
 static void swap(PQ* p, int i, int j) {
     vertex_exch(&p->array[i], &p->array[j]);
     p->map[vertex_id(p->array[i])] = i;
@@ -78,7 +66,7 @@ Vertex priority_queue_min(PQ* p) { return p->array[1]; }
 
 void priority_queue_decrease_key(PQ* p, int id, double weight) {
     int i = p->map[id];
-    p->array[i].dist = weight;
+    vertex_set_dist(&p->array[i], weight);
     fix_up(p, i);
 }
 

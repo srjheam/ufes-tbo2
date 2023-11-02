@@ -61,29 +61,29 @@ void dijkstra_dists(Graph* graph, int src_id, double *out_dists) {
 		double dist = triheap_pop(pq, &curr_id);
 		#endif
 
-		Vector *adj_vect = graph->adjacency_list[
+		Vector *adj_vect = graph_adj_vect(graph,
 			#ifdef BLUE_PILL
-			curr_v.id
+			vertex_id(curr_v)
 			#endif
 			#ifdef RED_PILL
 			curr_id
 			#endif
-			];
+		);
 
 		void *save_ptr = vector_iterator_begin(adj_vect);
 		Edge *curr_edge;
 		while ((curr_edge = vector_iterator_forward(adj_vect, &save_ptr)) != NULL)
 		{
-			int v_id = curr_edge->id_dest;
+			int v_id = edge_dest(curr_edge);
 
 			double t_dist =
 				#ifdef BLUE_PILL
-				curr_v.dist
+				vertex_dist(curr_v)
 				#endif
 				#ifdef RED_PILL
 				dist
 				#endif
-				+ curr_edge->weight;
+				+ edge_weight(curr_edge);
 			if (out_dists[v_id] > t_dist) {
 				out_dists[v_id] = t_dist;
 				#ifdef BLUE_PILL
