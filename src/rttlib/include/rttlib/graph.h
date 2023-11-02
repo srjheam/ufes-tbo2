@@ -5,6 +5,7 @@
 
 typedef struct Vertex {
     int id;
+    double dist;
 } Vertex;
 
 typedef struct Edge {

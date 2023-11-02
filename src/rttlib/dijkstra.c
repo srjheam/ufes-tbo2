@@ -3,9 +3,8 @@
 #include <stdbool.h>
 #include <math.h>
 
-#include "containerslib/triheap.h"
-
 #include "rttlib/graph.h"
+#include "rttlib/pq.h"
 
 int __idselecter(int *id) {
 	return *id;
@@ -19,15 +18,14 @@ void dijkstra_dists(Graph* graph, int src_id, double *out_dists) {
 
 	out_dists[src_id] = 0;
 
-	TriHeap *pq = triheap_init(MIN_HEAP, qtyV, sizeof(int), NULL, (idselect_fn)__idselecter);
+	PQ *pq = priority_queue_init(qtyV);
 	for (size_t i = 0; i < qtyV; i++)
-			triheap_push(pq, &i, out_dists[i]);
+			priority_queue_insert(pq, (Vertex){i, out_dists[i]});
 
-	while (triheap_len(pq) > 0) {
-		int curr_id;
-		double dist = triheap_pop(pq, &curr_id);
+	while (!priority_queue_empty(pq)) {
+		Vertex curr_v = priority_queue_delmin(pq);
 
-		Vector *adj_vect = graph->adjacency_list[curr_id];
+		Vector *adj_vect = graph->adjacency_list[curr_v.id];
 
 		void *save_ptr = vector_iterator_begin(adj_vect);
 		Edge *curr_edge;
@@ -35,13 +33,13 @@ void dijkstra_dists(Graph* graph, int src_id, double *out_dists) {
 		{
 			int v_id = curr_edge->id_dest;
 
-			double t_dist = dist + curr_edge->weight;
+			double t_dist = curr_v.dist + curr_edge->weight;
 			if (out_dists[v_id] > t_dist) {
 				out_dists[v_id] = t_dist;
-				triheap_update_by_id(pq, v_id, t_dist);
+				priority_queue_decrease_key(pq, v_id, t_dist);
 			}
 		}
 	}
 
-	triheap_free(pq);
+	priority_queue_finish(pq);
 }
