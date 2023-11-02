@@ -33,6 +33,18 @@ TBO2 foi o segundo trabalho desenvolvido ao longo da disciplina de Técnicas de 
    make
    ```
 
+#### Flags
+
+- RED_PILL
+
+1. Compile com
+
+   ```sh
+   make CFLAGS='-DRED_PILL'
+   ```
+
+E liberte-se da matrix.
+
 ## Usando
 
 Intruções de uso para o giovanni.

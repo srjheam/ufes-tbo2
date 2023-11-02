@@ -3,6 +3,25 @@
 #include "containerslib/exceptions.h"
 #include "containerslib/triheap.h"
 
+//
+// ATENÇÃO
+//
+// ESTE TRIHEAP POSSUE UM BUG INDIAGNOSTICAVEL
+// ISSO MESMO MEU BEBE ESTA DOENTE E NAO CONSIGO CURA-LO
+//
+// esse fato me forcou a usar o heap nao generico e chato que o professor deu
+//
+// make CFLAGS='-DRED_PILL'
+//
+// liberte-se da matrix, neo
+// use esse meu heap trilegal
+// os resultados podem parecer um pouco errados
+// mas o que importa é a experiencia, a viagem
+// e também de se gabar de ter uma super estrutura
+// de dados, com bytes, totalmente generica
+// e, o mais importante: completamente ilegivel :D
+//
+
 struct TriHeap {
     int *map;
     byte *data;
